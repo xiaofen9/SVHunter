@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <rule name='$net_state::N/A -> crash $var_'>
+        <classname>java.lang.Integer</classname>
+        <methodname>parseInt</methodname>
+    </rule>
+
+    <tag name='$net_state::N/A -> read $var_'>
+        <tagname>Ljavax/ws/rs/GET</tagname>
+    </tag>
+
+    <tag name='$net_state::N/A -> write $var_'>
+        <tagname>Ljavax/ws/rs/POST</tagname>
+    </tag>
+
+    <rule name='$fs::. -> write $var_'>
+        <classname>com.google.common.io.Files</classname>
+        <methodname>write</methodname>
+    </rule>
+    <!--<rule name='$fs::. -> write $var_'>-->
+        <!--<classname>java.io.OutputStreamWriter</classname>-->
+        <!--<methodname>write</methodname>-->
+    <!--</rule>-->
+    <!--<rule name='$fs::. -> write $var_'>-->
+        <!--<classname>java.io.StringWriter</classname>-->
+        <!--<methodname>write</methodname>-->
+    <!--</rule>-->
+    <!--<rule name='$fs::. -> write $var_'>-->
+        <!--<classname>org.dom4j.io.XMLWriter</classname>-->
+        <!--<methodname>write</methodname>-->
+    <!--</rule>-->
+
+    <!--<rule name='$fs::. -> write $var_'>-->
+        <!--<classname>javax.imageio.ImageIO</classname>-->
+        <!--<methodname>write</methodname>-->
+    <!--</rule>-->
+
+    <rule name='$net_state::flow -> write $var_'>
+        <classname>org.onosproject.net.flow.FlowRuleService</classname>
+        <methodname>applyFlowRules</methodname>
+    </rule>
+    <!--<rule name='$net_state::flow -> write $var_'>-->
+        <!--<classname>org.onosproject.net.flow.impl.FlowRuleDriverProvider</classname>-->
+        <!--<methodname>applyFlowRules</methodname>-->
+    <!--</rule>-->
+    <!--<rule name='$net_state::flow -> write $var_'>-->
+        <!--<classname>org.onosproject.net.flow.FlowRuleProgrammable</classname>-->
+        <!--<methodname>applyFlowRules</methodname>-->
+    <!--</rule>-->
+    <!--<rule name='$net_state::flow -> write $var_'>-->
+        <!--<classname>org.onosproject.net.flow.FlowRuleProvider</classname>-->
+        <!--<methodname>applyFlowRules</methodname>-->
+    <!--</rule>-->
+
+    <!--<rule name='$net_state::flow -> write $var_'>-->
+        <!--<classname>org.onosproject.net.flow.impl.FlowRuleManager</classname>-->
+        <!--<methodname>removeFlowRules</methodname>-->
+    <!--</rule>-->
+    <!--<rule name='$net_state::flow -> write $var_'>-->
+        <!--<classname>org.onosproject.net.flow.impl.FlowRuleDriverProvider</classname>-->
+        <!--<methodname>removeFlowRules</methodname>-->
+    <!--</rule>-->
+    <!--<rule name='$net_state::flow -> write $var_'>-->
+        <!--<classname>org.onosproject.net.flow.FlowRuleProgrammable</classname>-->
+        <!--<methodname>removeFlowRules</methodname>-->
+    <!--</rule>-->
+    <!--<rule name='$net_state::flow -> write $var_'>-->
+        <!--<classname>org.onosproject.net.flow.FlowRuleService</classname>-->
+        <!--<methodname>removeFlowRules</methodname>-->
+    <!--</rule>-->
+    <!--<rule name='$net_svc::flow -> write $var_'>-->
+        <!--<classname>org.onosproject.incubator.net.virtual.impl.VirtualNetworkFlowRuleManager</classname>-->
+        <!--<methodname>removeFlowRules</methodname>-->
+    <!--</rule>-->
+
+    <!--<rule name='$net_state::flow -> write $var_'>-->
+        <!--<classname>org.onosproject.net.flow.FlowRuleProviderService</classname>-->
+        <!--<methodname>pushFlowMetrics</methodname>-->
+    <!--</rule>-->
+    <!--<rule name='$net_svc::flow -> write $var_'>-->
+        <!--<classname>org.onosproject.provider.of.flow.impl.OpenFlowRuleProvider$InternalFlowProvider</classname>-->
+        <!--<methodname>pushFlowMetrics</methodname>-->
+    <!--</rule>-->
+    <!--<rule name='$net_svc::flow -> write $var_'>-->
+        <!--<classname>org.onosproject.incubator.net.virtual.provider.VirtualFlowRuleProviderService</classname>-->
+        <!--<methodname>pushFlowMetrics</methodname>-->
+    <!--</rule>-->
+
+    <!--<rule name='$net_svc::flow -> write $var_'>-->
+        <!--<classname>org.onosproject.incubator.net.virtual.provider.VirtualFlowRuleProvider</classname>-->
+        <!--<methodname>applyFlowRule</methodname>-->
+    <!--</rule>-->
+
+    <!--<rule name='$net_state::flow -> write $var_'>-->
+        <!--<classname>org.onosproject.provider.of.flow.impl.OpenFlowRuleProvider</classname>-->
+        <!--<methodname>applyRule</methodname>-->
+    <!--</rule>-->
+    <!--<rule name='$net_svc::flow -> write $var_'>-->
+        <!--<classname>org.onosproject.openstacknetworking.impl.OpenstackFlowRuleManager</classname>-->
+        <!--<methodname>applyRule</methodname>-->
+    <!--</rule>-->
+
+    <rule name='$fs::. -> read $var_'>
+        <classname>javax.xml.parsers.DocumentBuilder</classname>
+        <methodname>parse</methodname>
+    </rule>
+
+    <rule name='$fs::. -> read $var_'>
+        <classname>org.apache.commons.configuration.XMLConfiguration</classname>
+        <methodname>load</methodname>
+    </rule>
+
+    <rule name='$net_state::. -> read $var_'>
+        <classname>javax.xml.parsers.DocumentBuilder</classname>
+        <methodname>parse</methodname>
+    </rule>
+
+    <rule name='$net_state::. -> read $var_'>
+        <classname>org.apache.commons.configuration.XMLConfiguration</classname>
+        <methodname>load</methodname>
+    </rule>
+
+    <rule name='$net_state::topology -> read $var_'>
+        <classname>org.onosproject.cordsupport.CordSupportWebResource</classname>
+        <methodname>addLinks</methodname>
+    </rule>
+
+    <rule name='$fs::. -> read $var_'>
+        <classname>javax.xml.stream.XMLInputFactory</classname>
+        <methodname>createXMLStreamReader</methodname>
+    </rule>
+
+    <rule name='$net_state::. -> read $var_'>
+        <classname>javax.xml.stream.XMLInputFactory</classname>
+        <methodname>createXMLStreamReader</methodname>
+    </rule>
+
+    <rule name='$net_state::. -> write $var_'>
+        <classname>java.lang.Runtime</classname>
+        <methodname>exec</methodname>
+    </rule>
+</root>

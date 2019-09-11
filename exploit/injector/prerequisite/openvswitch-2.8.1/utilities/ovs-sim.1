@@ -1,0 +1,274 @@
+'\" p
+.\" -*- nroff -*-
+.TH "ovs-sim" 1 "ovs-sim" "Open vSwitch 2\[char46]8\[char46]1" "Open vSwitch Manual"
+.fp 5 L CR              \\" Make fixed-width font available as \\fL.
+.de TQ
+.  br
+.  ns
+.  TP "\\$1"
+..
+.de ST
+.  PP
+.  RS -0.15in
+.  I "\\$1"
+.  RE
+..
+.PP
+.SH "NAME"
+.PP
+.PP
+ovs-sim \- Open vSwitch simulator environment
+.SH "SYNOPSIS"
+.PP
+\fBovs\-sim\fR [\fIoption\fR]\[char46]\[char46]\[char46] [\fIscript\fR]\[char46]\[char46]\[char46]
+.SH "DESCRIPTION"
+.PP
+.PP
+\fBovs\-sim\fR provides a convenient environment for running one or more Open vSwitch instances and related software in a sandboxed simulation environment\[char46]
+.PP
+.PP
+To use \fBovs\-sim\fR, first build Open vSwitch, then invoke it directly from the build directory, e\[char46]g\[char46]:
+.PP
+.nf
+\fB
+.br
+\fBgit clone https://github\[char46]com/openvswitch/ovs\[char46]git
+.br
+\fBcd ovs
+.br
+\fB\[char46]/configure
+.br
+\fBmake
+.br
+\fButilities/ovs\-sim
+.br
+\fB    \fR
+.fi
+.PP
+.PP
+When invoked in the most ordinary way as shown above, \fBovs\-sim\fR does the following:
+.RS
+.IP 1. .25in
+Creates a directory \fBsandbox\fR as a subdirectory of the current directory (first destroying such a directory if it already exists) and \fBcd\fRs into that directory\[char46]
+.IP 2. .25in
+Installs all of the Open vSwitch manpages into a \fBman\fR subdirectory of \fBsandbox\fR and adjusts the \fBMANPATH\fR environment variable so that \fBman\fR and other manpage viewers can find them\[char46]
+.IP 3. .25in
+Creates a simulated Open vSwitch named \fBmain\fR and sets it up as the default target for OVS commands, as if the following \fBovs\-sim\fR commands had been run:
+.IP
+.nf
+\fB
+.br
+\fB          sim_add main
+.br
+\fB          as main
+.br
+\fB        \fR
+.fi
+.IP
+See \fBCommands\fR, below, for an explanation\[char46]
+.IP 4. .25in
+Runs any scripts specified on the command line (see \fBOptions\fR below)\[char46] The scripts can use arbitrary Bash syntax, plus the additional commands described under \fBCommands\fR, below\[char46]
+.IP 5. .25in
+If no scripts were specified, or if \fB\-i\fR or \fB\-\-interactive\fR was specified, invokes an interactive Bash subshell\[char46] The user can use arbitrary Bash commands, plus the additional commands described under \fBCommands\fR, below\[char46]
+.RE
+.PP
+.PP
+\fBovs\-sim\fR and the sandbox environment that it creates does not require superuser or other special privileges\[char46] Generally, it should not be run with such privileges\[char46]
+.SH "OPTIONS"
+.PP
+.PP
+\fBovs\-sim\fR accepts the following options and arguments:
+.RS
+.TP
+\fIscript\fR
+Runs \fIscript\fR, which should be a Bash script, within a subshell after initializing\[char46] If multiple \fIscript\fR arguments are given, then they are run in the order given\[char46] If any \fIscript\fR exits with a nonzero exit code, then \fBovs\-sim\fR exits immediately with the same exit code\[char46]
+.TP
+\fB\-i\fR
+.TQ .5in
+\fB\-\-interactive\fR
+By default, if any \fIscript\fR is specified, \fBovs\-sim\fR exits as soon as the scripts finish executing\[char46] With this option, or if no scripts are specified, \fBovs\-sim\fR instead starts an interactive Bash session\[char46]
+.RE
+.SH "COMMANDS"
+.PP
+.PP
+Scripts and interactive usage may use the following commands implemented by \fBovs\-sim\fR\[char46] They are implemented as Bash shell functions exported to subshells\[char46]
+.SS "Basic Commands"
+.PP
+.PP
+These are the basic commands for working with sandboxed Open vSwitch instances\[char46]
+.RS
+.TP
+\fBsim_add\fR \fIsandbox\fR
+Starts a new simulated Open vSwitch instance named \fIsandbox\fR\[char46] Files related to the instance, such as logs, databases, sockets, and pidfiles, are created in a subdirectory also named \fIsandbox\fR\[char46] Afterward, the \fBas\fR command (see below) can be used to run Open vSwitch utilities in the context of the new sandbox\[char46]
+.IP
+The new sandbox starts out without any bridges\[char46] Use \fBovs\-vsctl\fR in the context of the new sandbox to create a bridge, e\[char46]g\[char46]:
+.IP
+.nf
+\fB
+.br
+\fBsim_add hv0           # Create sandbox hv0\[char46]
+.br
+\fBas hv0                # Set hv0 as default sandbox\[char46]
+.br
+\fBovs\-vsctl add\-br br0  # Add bridge br0 inside hv0\[char46]
+.br
+\fB        \fR
+.fi
+.IP
+The Open vSwitch instances that \fBsim_add\fR create enable ``dummy\(cq\(cq devices\[char46] This means that bridges and interfaces can be created with type \fBdummy\fR to indicate that they should be totally simulated, without any reference to system entities\[char46] In fact, \fBovs\-sim\fR also configures Open vSwitch so that the default \fBsystem\fR type of bridges and interfaces are replaced by \fBdummy\fR devices\[char46] Other types of devices, however, retain their usual functions, which means that, e\[char46]g\[char46], \fBvxlan\fR tunnels still act as tunnels (refer to the documentation)\[char46]
+.TP
+\fBas\fR \fIsandbox\fR
+Sets \fIsandbox\fR as the default simulation target for Open vSwitch commands (e\[char46]g\[char46] \fBovs\-vsctl\fR, \fBovs\-ofctl\fR, \fBovs\-appctl\fR)\[char46]
+.IP
+This command updates the beginning of the shell prompt to indicate the new default target\[char46]
+.TP
+\fBas\fR \fIsandbox\fR \fIcommand\fR \fIarg\fR\[char46]\[char46]\[char46]
+Runs the given \fIcommand\fR with \fIsandbox\fR as the simulation target, e\[char46]g\[char46] \fBas hv0 ovs\-vsctl add\-br br0\fR runs \fBovs\-vsctl add\-br br0\fR within sandbox \fBhv0\fR\[char46] The default target is unchanged\[char46]
+.RE
+.SS "Interconnection Network Commands"
+.PP
+.PP
+When multiple sandboxed Open vSwitch instances exist, one will inevitably want to connect them together\[char46] These commands allow for that\[char46] Conceptually, an interconnection network is a switch that \fBovs\-sim\fR makes it easy to plug into other switches in other sandboxed Open vSwitch instances\[char46] Interconnection networks are implemented as bridges in the \fBmain\fR switch that \fBovs\-sim\fR creates by default, so to use interconnection networks please avoid working with \fBmain\fR directly\[char46]
+.RS
+.TP
+\fBnet_add\fR \fInetwork\fR
+Creates a new interconnection network named \fInetwork\fR\[char46]
+.TP
+\fBnet_attach\fR \fInetwork\fR \fIbridge\fR
+Adds a new port to \fIbridge\fR in the default sandbox (as set with \fBas\fR) and plugs it into the \fInetwork\fR interconnection network\[char46] \fInetwork\fR must already have been created by a previous invocation of \fBnet_add\fR\[char46] The default sandbox must not be \fBmain\fR\[char46]
+.RE
+.SS "OVN Commands"
+.PP
+.PP
+These commands interact with OVN, the Open Virtual Network\[char46]
+.RS
+.TP
+\fBovn_start\fR
+Creates and initializes the central OVN databases (both \fBovn\-sb\fR(5) and \fBovn\-nb\fR) and starts an instance of \fBovsdb\-server\fR for each one\[char46] Also starts an instance of \fBovn\-northd\fR\[char46]
+.TP
+\fBovn_attach\fR \fInetwork\fR \fIbridge\fR \fIip\fR [\fImasklen\fR]
+First, this command attaches \fIbridge\fR to interconnection network \fInetwork\fR, just like \fBnet_attach\fR \fInetwork\fR \fIbridge\fR\[char46] Second, it configures (simulated) IP address \fIip\fR (with network mask length \fBmasklen\fR, which defaults to 24) on \fIbridge\fR\[char46] Finally, it configures the Open vSwitch database to work with OVN and starts \fBovn\-controller\fR\[char46]
+.RE
+.SH "EXAMPLES"
+.PP
+.PP
+The following creates a pair of Open vSwitch instances \fBhv0\fR and \fBhv1\fR, adds a port named \fBvif0\fR or \fBvif1\fR, respectively, to each one, and then connects the two through an interconnection network \fBn1\fR:
+.PP
+.nf
+\fB
+.br
+\fBnet_add n1
+.br
+\fBfor i in 0 1; do
+.br
+\fB    sim_add hv$i
+.br
+\fB    as hv$i ovs\-vsctl add\-br br0 \-\- add\-port br0 vif$i
+.br
+\fB    as hv$i net_attach n1 br0
+.br
+\fBdone
+.br
+\fB    \fR
+.fi
+.PP
+.PP
+Here\(cqs an extended version that also starts OVN:
+.PP
+.nf
+\fB
+.br
+\fBovn_start
+.br
+\fBovn\-nbctl ls\-add lsw0
+.br
+\fB
+.br
+\fBnet_add n1
+.br
+\fBfor i in 0 1; do
+.br
+\fB    sim_add hv$i
+.br
+\fB    as hv$i
+.br
+\fB    ovs\-vsctl add\-br br\-phys
+.br
+\fB    ovn_attach n1 br\-phys 192\[char46]168\[char46]0\[char46]`expr $i + 1`
+.br
+\fB    ovs\-vsctl add\-port br\-int vif$i \-\- set Interface vif$i external\-ids:iface\-id=lp$i
+.br
+\fB    ovn\-nbctl lsp\-add lsw0 lp$i
+.br
+\fB    ovn\-nbctl lsp\-set\-addresses lp$i f0:00:00:00:00:0$i
+.br
+\fBdone
+.br
+\fB    \fR
+.fi
+.PP
+.PP
+Here\(cqs a primitive OVN ``scale test\(cq\(cq (adjust the scale by changing \fIn\fR in the first line :
+.PP
+.nf
+\fB
+.br
+\fBn=200; export n
+.br
+\fBovn_start
+.br
+\fBnet_add n1
+.br
+\fBovn\-nbctl ls\-add br0
+.br
+\fBfor i in `seq $n`; do
+.br
+\fB    (sim_add hv$i
+.br
+\fB    as hv$i
+.br
+\fB    ovs\-vsctl add\-br br\-phys
+.br
+\fB    y=$(expr $i / 256)
+.br
+\fB    x=$(expr $i % 256)
+.br
+\fB    ovn_attach n1 br\-phys 192\[char46]168\[char46]$y\[char46]$x
+.br
+\fB    ovs\-vsctl add\-port br\-int vif$i \-\- set Interface vif$i external\-ids:iface\-id=lp$i) &
+.br
+\fB    case $i in
+.br
+\fB        *50|*00) echo $i; wait ;;
+.br
+\fB    esac
+.br
+\fBdone
+.br
+\fBwait
+.br
+\fBfor i in `seq $n`; do
+.br
+\fB    yy=$(printf %02x $(expr $i / 256))
+.br
+\fB    xx=$(printf $02x $(expr $i % 256))
+.br
+\fB    ovn\-nbctl lsp\-add br0 lp$i
+.br
+\fB    ovn\-nbctl lsp\-set\-addresses lp$i f0:00:00:00:$yy:$xx
+.br
+\fBdone
+.br
+\fB    \fR
+.fi
+.PP
+.PP
+When the scale test has finished initializing, you can watch the logical ports come up with a command like this:
+.PP
+.nf
+\fB
+.br
+\fBwatch \(cqfor i in `seq $n`; do if test `ovn\-nbctl lsp\-get\-up lp$i` != up; then echo $i; fi; done\(cq
+.br
+\fB    \fR
+.fi

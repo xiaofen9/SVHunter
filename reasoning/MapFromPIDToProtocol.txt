@@ -1,0 +1,3 @@
+getSoftwareDescription -> openflow.multipartresponse.sw_desc
+getSwitchFeaturesReply -> openflow.multipartresponse.mfr_desc
+processPacketInMessage -> openflow.packetin.na

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<normal>
+		<datatype>fs</datatype>
+		<class>com.google.common.io.ByteStreams</class>
+		<method>copy</method>
+		<operation>read</operation>
+	</normal>
+
+	<normal>
+		<datatype>fs</datatype>
+		<class>com.google.common.io.Files</class>
+		<method>write</method>
+		<operation>write</operation>
+	</normal>
+
+	<normal>
+		<datatype>fs</datatype>
+		<class>com.google.common.io.ByteStreams</class>
+		<method>toByteArray</method>
+		<operation>read</operation>
+	</normal>
+
+	<normal>
+		<datatype>fs</datatype>
+		<class>java.io.FileInputStream</class>
+		<method>read</method>
+		<operation>read</operation>
+	</normal>
+
+	<normal>
+		<datatype>fs</datatype>
+		<class>java.io.FileInputStream</class>
+		<method>write</method>
+		<operation>write</operation>
+	</normal>
+
+	<normal>
+		<datatype>fs</datatype>
+		<class>java.io.BufferedReader</class>
+		<method>readline</method>
+		<operation>read</operation>
+	</normal>
+
+	<normal>
+		<datatype>fs</datatype>
+		<class>java.io.BufferedWriter</class>
+		<method>write</method>
+		<operation>write</operation>
+	</normal>
+
+	<normal>
+		<datatype>fs</datatype>
+		<class>java.io.BufferedInputStream</class>
+		<method>read</method>
+		<operation>read</operation>
+	</normal>
+
+	<normal>
+		<datatype>fs</datatype>
+		<class>java.io.BufferedOutputStream</class>
+		<method>write</method>
+		<operation>write</operation>
+	</normal>
+
+
+	<special>
+		<datatype>fs</datatype>
+		<mark>java.io.File</mark>
+		<operation>read</operation>
+	</special>
+
+	<special>
+		<datatype>proto_msg</datatype>
+		<mark>getAllPortStats</mark>
+		<operation>read</operation>
+	</special>
+
+	<special>
+		<datatype>proto_msg</datatype>
+		<mark>OpenflowProtocolListener</mark>
+		<operation>read</operation>
+	</special>
+
+	<special>
+		<datatype>proto_msg</datatype>
+		<mark>handlePacketIn</mark>
+		<operation>read</operation>
+	</special>
+
+	<special>
+		<datatype>proto_msg</datatype>
+		<mark>org.opendaylight.yang.gen.v1.urn.opendaylight.packet</mark>
+		<operation>read</operation>
+	</special>
+
+	<special>
+		<datatype>net_state</datatype>
+		<mark>RpcService</mark>
+		<operation>read</operation>
+	</special>
+
+	
+
+</root>
+

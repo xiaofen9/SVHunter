@@ -1,0 +1,4 @@
+libvtep_0 {
+global:
+        *;
+};

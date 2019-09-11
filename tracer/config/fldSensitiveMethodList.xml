@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <rule name='$net_state::N/A -> crash $var_'>
+        <classname>java.lang.Integer</classname>
+        <methodname>parseInt</methodname>
+    </rule>
+
+    <tag name='$net_state::N/A -> read $var_'>
+        <tagname>Lorg/restlet/resource/Get</tagname>
+    </tag>
+    <!-- <rule name='$net_state::. -> write $var_'>
+        <classname>org.restlet.routing.Router</classname>
+        <methodname>attach</methodname>
+    </rule> -->
+
+    <rule name='$proto_msg::push_rules -> write $var_'>
+        <classname>net.floodlightcontroller.staticentry.web.StaticEntryPusherResource</classname>
+        <methodname>store</methodname>
+    </rule>
+
+    <rule name='$net_state::switch -> read $var_'>
+        <classname>net.floodlightcontroller.statistics.StatisticsCollector</classname>
+        <methodname>getSwitchStatistics</methodname>
+    </rule>
+
+    <!--<rule name='$db::. -> write $var_'>-->
+        <!--<classname>net.floodlightcontroller.storage.IStorageSourceService</classname>-->
+        <!--<methodname>executeQuery</methodname>-->
+    <!--</rule>-->
+
+    <rule name='$db::table -> read $var_'>
+        <classname>net.floodlightcontroller.storage.memory.MemoryStorageSource</classname>
+        <methodname>getTable</methodname>
+    </rule>
+
+    <rule name='$db::row -> read $var_'>
+        <classname>net.floodlightcontroller.storage.memory.MemoryTable</classname>
+        <methodname>getRow</methodname>
+    </rule>
+
+    <rule name='$db::rows -> write $var_'>
+        <classname>net.floodlightcontroller.storage.nosql.NoSqlStorageSource</classname>
+        <methodname>insertRows</methodname>
+    </rule>
+
+    <rule name='$db::row -> read $var_'>
+        <classname>net.floodlightcontroller.storage.nosql.NoSqlStorageSource</classname>
+        <methodname>getRow</methodname>
+    </rule>
+
+    <rule name='$db::row -> read $var_'>
+        <classname>net.floodlightcontroller.storage.IStorageSourceService</classname>
+        <methodname>getRow</methodname>
+    </rule>
+
+    <rule name='$db::rows -> write $var_'>
+        <classname>net.floodlightcontroller.storage.nosql.NoSqlStorageSource</classname>
+        <methodname>updateRows</methodname>
+    </rule>
+
+    <rule name='$db::. -> write $var_'>
+        <classname>net.floodlightcontroller.storage.AbstractStorageSource</classname>
+        <methodname>executeQuery</methodname>
+    </rule>
+
+    <rule name='$db::row -> read $var_'>
+        <classname>net.floodlightcontroller.storage.IResultSet</classname>
+        <methodname>getRow</methodname>
+    </rule>
+
+    <rule name='$fs::. -> write $var_'>
+        <classname>com.google.common.io.Files</classname>
+        <methodname>write</methodname>
+    </rule>
+    <rule name='$fs::. -> write $var_'>
+        <classname>java.io.OutputStreamWriter</classname>
+        <methodname>write</methodname>
+    </rule>
+    <rule name='$fs::. -> write $var_'>
+        <classname>java.io.StringWriter</classname>
+        <methodname>write</methodname>
+    </rule>
+    <rule name='$fs::. -> write $var_'>
+        <classname>org.dom4j.io.XMLWriter</classname>
+        <methodname>write</methodname>
+    </rule>
+
+    <rule name='$fs::. -> write $var_'>
+        <classname>javax.imageio.ImageIO</classname>
+        <methodname>write</methodname>
+    </rule>
+
+    <rule name='$fs::. -> read $var_'>
+        <classname>javax.xml.parsers.DocumentBuilderFactory</classname>
+        <methodname>newDocumentBuilder</methodname>
+    </rule>
+
+    <rule name='$fs::. -> read $var_'>
+        <classname>org.apache.commons.configuration.XMLConfiguration</classname>
+        <methodname>load</methodname>
+    </rule>
+
+    <rule name='$net_state::. -> read $var_'>
+        <classname>javax.xml.parsers.DocumentBuilderFactory</classname>
+        <methodname>newDocumentBuilder</methodname>
+    </rule>
+
+    <rule name='$net_state::. -> read $var_'>
+        <classname>org.apache.commons.configuration.XMLConfiguration</classname>
+        <methodname>load</methodname>
+    </rule>
+
+
+    <rule name='$fs::. -> read $var_'>
+        <classname>javax.xml.stream.XMLInputFactory</classname>
+        <methodname>createXMLStreamReader</methodname>
+    </rule>
+
+    <rule name='$net_state::. -> read $var_'>
+        <classname>javax.xml.stream.XMLInputFactory</classname>
+        <methodname>createXMLStreamReader</methodname>
+    </rule>
+
+    <rule name='$net_state::. -> write $var_'>
+        <classname>java.lang.Runtime</classname>
+        <methodname>exec</methodname>
+    </rule>
+</root>

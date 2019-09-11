@@ -1,0 +1,37 @@
+digraph OVN_Southbound {
+	rankdir=LR;
+	size="6.5,4";
+	margin="0";
+	node [shape=box];
+	edge [dir=none, arrowhead=none, arrowtail=none];
+	Address_Set [style=bold];
+	Gateway_Chassis [];
+	Gateway_Chassis -> Chassis [style=dotted, label="chassis?"];
+	Encap [];
+	Multicast_Group [style=bold];
+	Multicast_Group -> Port_Binding [style=dotted, label="ports+"];
+	Multicast_Group -> Datapath_Binding [label="datapath"];
+	Datapath_Binding [style=bold];
+	RBAC_Permission [style=bold];
+	SB_Global [style=bold];
+	SB_Global -> Connection [label="connections*"];
+	SB_Global -> SSL [label="ssl?"];
+	Logical_Flow [style=bold];
+	Logical_Flow -> Datapath_Binding [label="logical_datapath"];
+	SSL [];
+	Connection [];
+	Chassis [style=bold];
+	Chassis -> Encap [label="encaps+"];
+	MAC_Binding [style=bold];
+	MAC_Binding -> Datapath_Binding [label="datapath"];
+	RBAC_Role [style=bold];
+	RBAC_Role -> RBAC_Permission [style=dotted, label="permissions value*"];
+	DNS [style=bold];
+	DNS -> Datapath_Binding [label="datapaths+"];
+	DHCPv6_Options [style=bold];
+	Port_Binding [style=bold];
+	Port_Binding -> Gateway_Chassis [label="gateway_chassis*"];
+	Port_Binding -> Datapath_Binding [label="datapath"];
+	Port_Binding -> Chassis [style=dotted, label="chassis?"];
+	DHCP_Options [style=bold];
+}

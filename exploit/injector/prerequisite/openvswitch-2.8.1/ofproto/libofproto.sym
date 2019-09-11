@@ -1,0 +1,4 @@
+libofproto_0 {
+global:
+        *;
+};

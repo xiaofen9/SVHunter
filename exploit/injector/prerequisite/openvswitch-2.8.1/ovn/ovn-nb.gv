@@ -1,0 +1,37 @@
+digraph OVN_Northbound {
+	rankdir=LR;
+	size="6.5,4";
+	margin="0";
+	node [shape=box];
+	edge [dir=none, arrowhead=none, arrowtail=none];
+	Load_Balancer [style=bold];
+	Logical_Switch_Port [];
+	Logical_Switch_Port -> DHCP_Options [style=dotted, label="dhcpv6_options?"];
+	Logical_Switch_Port -> DHCP_Options [style=dotted, label="dhcpv4_options?"];
+	Address_Set [style=bold];
+	NB_Global [style=bold];
+	NB_Global -> Connection [label="connections*"];
+	NB_Global -> SSL [label="ssl?"];
+	QoS [];
+	DNS [style=bold];
+	Logical_Router_Static_Route [];
+	Logical_Router_Port [];
+	Logical_Router_Port -> Gateway_Chassis [label="gateway_chassis*"];
+	Logical_Router [style=bold];
+	Logical_Router -> Load_Balancer [label="load_balancer*"];
+	Logical_Router -> Logical_Router_Static_Route [label="static_routes*"];
+	Logical_Router -> Logical_Router_Port [label="ports*"];
+	Logical_Router -> NAT [label="nat*"];
+	ACL [];
+	SSL [];
+	Connection [];
+	Logical_Switch [style=bold];
+	Logical_Switch -> Load_Balancer [label="load_balancer*"];
+	Logical_Switch -> DNS [style=dotted, label="dns_records*"];
+	Logical_Switch -> QoS [label="qos_rules*"];
+	Logical_Switch -> ACL [label="acls*"];
+	Logical_Switch -> Logical_Switch_Port [label="ports*"];
+	NAT [];
+	Gateway_Chassis [];
+	DHCP_Options [style=bold];
+}

@@ -1,0 +1,173 @@
+# -*- shell-script -*-
+HAVE_OPENSSL='@HAVE_OPENSSL@'
+HAVE_PYTHON='@HAVE_PYTHON@'
+HAVE_PYTHON3='@HAVE_PYTHON3@'
+EGREP='@EGREP@'
+PERL='@PERL@'
+
+if test x"$PYTHON" = x; then
+    PYTHON='@PYTHON@'
+fi
+
+if test x"$PYTHON3" = x; then
+    PYTHON3='@PYTHON3@'
+
+    # PYTHONCOERCECLOCALE=0 disables the Unicode compatibility warning on
+    # stderr that breaks almost any Python3 test (PEP 0538)
+    PYTHONCOERCECLOCALE=0
+    export PYTHONCOERCECLOCALE
+fi
+
+PYTHONPATH=$abs_top_srcdir/python:$abs_top_builddir/tests:$PYTHONPATH
+export PYTHONPATH
+
+PYTHONIOENCODING=utf_8
+export PYTHONIOENCODING
+
+# PYTHONDONTWRITEBYTECODE=yes keeps Python from creating .pyc and .pyo
+# files.  Creating .py[co] works OK for any given version of Open
+# vSwitch, but it causes trouble if you switch from a version with
+# foo/__init__.py into an (older) version with plain foo.py, since
+# foo/__init__.pyc will cause Python to ignore foo.py.
+PYTHONDONTWRITEBYTECODE=yes
+export PYTHONDONTWRITEBYTECODE
+
+# Test whether the current working directory name is all ASCII
+# characters.  Some Python code doesn't tolerate non-ASCII characters
+# in filenames very well, so if the current working directory is
+# non-ASCII then we skip the tests that run those programs.
+#
+# This would be just papering over a real problem, except that the
+# tests that we skip are launched from initscripts and thus normally
+# run in system directories with ASCII names.  (This problem only came
+# up at all because the Debian autobuilders do build in a top-level
+# directory named /«BUILDDIR».)
+case `pwd | tr -d ' -~'` in
+    '') non_ascii_cwd=false ;;
+    *) non_ascii_cwd=true
+esac
+
+# Enable malloc debugging features.
+case `uname` in
+Linux)
+    MALLOC_PERTURB_=165; export MALLOC_PERTURB_
+
+    # Before glibc 2.11, the feature enabled by MALLOC_CHECK_ was not
+    # thread-safe.  See https://bugzilla.redhat.com/show_bug.cgi?id=585674 and
+    # in particular the patch attached there, which was applied to glibc CVS as
+    # "Restore locking in free_check." between 1.11 and 1.11.1.
+    vswitchd=$abs_top_builddir/vswitchd/ovs-vswitchd
+    glibc=`ldd $vswitchd | sed -n 's/^	libc\.[^ ]* => \([^ ]*\) .*/\1/p'`
+    glibc_version=`$glibc | sed -n '1s/.*version \([0-9]\{1,\}\.[0-9]\{1,\}\).*/\1/p'`
+    case $glibc_version in
+        2.[0-9] | 2.1[01]) mcheck=disabled ;;
+        *) mcheck=enabled ;;
+    esac
+    if test $mcheck = enabled; then
+        MALLOC_CHECK_=2; export MALLOC_CHECK_
+    else
+        echo >&2 "glibc $glibc_version detected, disabling memory checking"
+    fi
+    ;;
+FreeBSD)
+    case `uname -r` in
+    [789].*)
+        MALLOC_CONF=AJ
+        ;;
+    *)
+        MALLOC_CONF=abort:true,junk:true,redzone:true
+        ;;
+    esac
+    export MALLOC_CONF
+esac
+
+# The name of loopback interface 
+case `uname` in
+Linux)
+    LOOPBACK_INTERFACE=lo
+    ;;
+FreeBSD|NetBSD)
+    LOOPBACK_INTERFACE=lo0
+    ;;
+esac
+
+# Check for platform.
+case `uname` in
+MINGW*)
+    IS_WIN32="yes"
+    IS_BSD="no"
+    ;;
+FreeBSD|NetBSD)
+    IS_WIN32="no"
+    IS_BSD="yes"
+    ;;
+*)
+    IS_WIN32="no"
+    IS_BSD="no"
+    ;;
+esac
+
+# Check whether to run IPv6 tests.
+if perl -e 'use Socket; socket(FH, PF_INET6, SOCK_STREAM, 0) || exit 1;'; then
+    HAVE_IPV6=yes
+else
+    HAVE_IPV6=no
+fi
+
+find_l7_lib()
+{
+    set +x
+    var=HAVE_`echo "$1" | tr '[a-z]' '[A-Z]'`
+    if test "$HAVE_PYTHON" = "yes"; then
+        result=$($PYTHON $abs_top_srcdir/tests/test-l7.py --help | grep "$1")
+        if test "x${result}" != x; then
+            eval ${var}="yes"
+        else
+            eval ${var}="no"
+        fi
+    else
+        eval ${var}="no"
+    fi
+}
+
+find_l7_lib ftp
+find_l7_lib tftp
+
+# Look for a commnand in the system. If it is found, defines
+# HAVE_COMMAND="yes", otherwise HAVE_COMMAND="no".
+find_command()
+{
+    which $1 > /dev/null 2>&1
+    status=$?
+    var=HAVE_`echo "$1" | tr '[a-z]' '[A-Z]'`
+    if test "$status" = "0"; then
+        eval ${var}="yes"
+    else
+        eval ${var}="no"
+    fi
+}
+
+# Set HAVE_NC
+find_command nc
+
+# Determine correct netcat option to quit on stdin EOF
+if nc --version 2>&1 | grep -q nmap.org; then
+    NC_EOF_OPT="--send-only"
+else
+    NC_EOF_OPT="-q 1"
+fi
+
+# Set HAVE_TCPDUMP
+find_command tcpdump
+
+CURL_OPT="-g -v --max-time 1 --retry 2 --retry-delay 1 --connect-timeout 1"
+
+# Turn off proxies.
+unset http_proxy
+unset https_proxy
+unset ftp_proxy
+unset no_proxy
+unset HTTP_PROXY
+unset HTTPS_PROXY
+unset FTP_PROXY
+unset NO_PROXY

@@ -1,0 +1,4 @@
+libovn_0 {
+global:
+        *;
+};

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <rule name='$net_state::N/A -> crash $var_'>
+        <classname>java.lang.Integer</classname>
+        <methodname>parseInt</methodname>
+    </rule>
+
+    <rule name='$fs::. -> read $var_'>
+        <classname>javax.xml.parsers.DocumentBuilder</classname>
+        <methodname>parse</methodname>
+    </rule>
+
+    <rule name='$fs::. -> read $var_'>
+        <classname>org.apache.commons.configuration.XMLConfiguration</classname>
+        <methodname>load</methodname>
+    </rule>
+
+    <rule name='$net_state::. -> read $var_'>
+        <classname>javax.xml.parsers.DocumentBuilder</classname>
+        <methodname>parse</methodname>
+    </rule>
+
+    <rule name='$net_state::. -> read $var_'>
+        <classname>org.apache.commons.configuration.XMLConfiguration</classname>
+        <methodname>load</methodname>
+    </rule>
+
+
+    <rule name='$fs::. -> read $var_'>
+        <classname>javax.xml.stream.XMLInputFactory</classname>
+        <methodname>createXMLStreamReader</methodname>
+    </rule>
+
+    <rule name='$net_state::. -> read $var_'>
+        <classname>javax.xml.stream.XMLInputFactory</classname>
+        <methodname>createXMLStreamReader</methodname>
+    </rule>
+        <!--<function>-->
+            <!--<rule name='$db::. -> write $var_'>-->
+                <!--<regmatch>-->
+                    <!--<regexp>stmt\.executeUpdate</regexp>-->
+                <!--</regmatch>-->
+            <!--</rule>-->
+        <!--</function>-->
+            <!--<rule name='$fs::. -> read $var_'>-->
+                    <!--<regexp>new\s+SAXReader\(\)</regexp>-->
+            <!--<rule name='$http_api::. -> write $var_'>-->
+                <!--<regmatch>-->
+                    <!--<regexp>new\s+SAXReader\(\)</regexp>-->
+            <!--<rule name='$fs::. -> read $var_'>-->
+                <!--<regmatch>-->
+                    <!--<regexp>new\s+SAXBuilder\(\)</regexp>-->
+            <!--<rule name='$http_api::. -> write $var_'>-->
+                <!--<regmatch>-->
+                    <!--<regexp>new\s+SAXBuilder\(\)</regexp>-->
+            <!--<rule name='$fs::. -> read $var_'>-->
+                <!--<regmatch>-->
+                    <!--<regexp>new\s+SAXParser\(</regexp>-->
+            <!--<rule name='$http_api::. -> write $var_'>-->
+                <!--<regmatch>-->
+                    <!--<regexp>new\s+SAXParser\(</regexp>-->
+            <!--<rule name='$fs::. -> read $var_'>-->
+                <!--<regmatch>-->
+                    <!--<regexp>createXMLReader\(</regexp>-->
+            <!--<rule name='$http_api::. -> write $var_'>-->
+                <!--<regmatch>-->
+                    <!--<regexp>createXMLReader\(</regexp>-->
+            <!--<rule name='$fs::. -> read $var_'>-->
+                <!--<regmatch>-->
+                    <!--<regexp>newDocumentBuilder\(</regexp>-->
+            <!--<rule name='$http_api::. -> write $var_'>-->
+                <!--<regmatch>-->
+                    <!--<regexp>newDocumentBuilder\(</regexp>-->
+            <!--<rule name='$fs::. -> read $var_'>-->
+                <!--<regmatch>-->
+                    <!--<regexp>createXMLStreamReader\(</regexp>-->
+        <!--<rule name='$http_api::. -> write $var_'>-->
+                <!--<regmatch>-->
+                    <!--<regexp>createXMLStreamReader\(</regexp>-->
+            <!--<rule name='$fs::. -> write $var_'>-->
+                <!--<regmatch>-->
+                    <!--<regexp>new\sFileInputStream\(</regexp>-->
+            <!--<rule name='$fs::. -> write $var_'>-->
+                <!--<regmatch>-->
+                    <!--<regexp>new\sBufferedInputStream</regexp>-->
+    <rule name='$net_state::. -> write $var_'>
+        <classname>java.lang.Runtime</classname>
+        <methodname>exec</methodname>
+    </rule>
+</root>

@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: libs/antlr-4.7.1-complete.jar
+Main-Class: main.java.Run
+
