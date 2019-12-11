@@ -219,7 +219,12 @@ public class Main {
                     for (Unit unit:body.getUnits()){
                         //Identify the Statement with invoke exp
                        if (((Stmt) unit).containsInvokeExpr()) {
-                           SootMethod callee = ((Stmt) unit).getInvokeExpr().getMethod();
+                           SootMethod callee = null;
+						   try{
+							   callee = ((Stmt) unit).getInvokeExpr().getMethod();
+						   } catch (RuntimeException e){
+							   continue;
+						   }
                            //Ignore the invoke to the system method
                            if (Config.identifyApplicationClass(callee.getDeclaringClass().getName())) {
                                if (calleeToCallerTable.containsKey(callee) == false)
